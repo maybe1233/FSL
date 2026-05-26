@@ -1,0 +1,6 @@
+@FSL_HostAddress = http://localhost:5073
+
+GET {{FSL_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
