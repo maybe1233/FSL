@@ -1,7 +1,9 @@
+using FSL.DTOs;
 namespace FSL.Services
 {
     public interface IServiceScontrini
     {
-        // Definisci i metodi del servizio qui
+        TestaScontrinoDTO? GetScontrino(long numeroScontrino);
+        List<TestaScontrinoDTO> GetScontrini(int anno, int mese, int giorno);
     }
 }

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using FSL;
 using FSL.Entities;
 using FSL.Services;
+using FSL.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

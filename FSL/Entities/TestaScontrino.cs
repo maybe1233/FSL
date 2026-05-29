@@ -1,27 +1,32 @@
-using System;
+using FSL.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FSL.Entities
+namespace FSL.Entities;
+
+[Table("sto_TestaScontrini")]
+public class TestaScontrino
 {
-    [Table("Testa Scontrini")]
-    public class TestaScontrino
-    {
-        [Key]
-        [Column("Id Scontrino")]
-        public int IdScontrino { get; set; }
+    [Key]
+    [Column("Numero scontrino")]
+    public long NumeroScontrino { get; set; }
 
-        [Column("Numero Scontr")]
-        [StringLength(50)]
-        public string NumeroScontrino { get; set; }
+    [Column("Data creazione")]
+    public DateTime DataScontrino { get; set; }
 
-        [Column("Data Movimento")]
-        public DateTime DataMovimento { get; set; }
+    [Column("Totale")]
+    public decimal Totale { get; set; }
 
-        [Column("Importo Totale")]
-        public decimal ImportoTotale { get; set; }
+    [Column("Note")]
+    public string? Note { get; set; }
 
-        [Column("Id Cassa")]
-        public int IdCassa { get; set; }
-    }
+    [Column("Numero cassa")]
+    public int NumeroCassa { get; set; }
+
+
+    // Navigation properties
+    [NotMapped]
+    public venCassa? Cassa { get; set; } = null;
+
+    public IEnumerable<RigaScontrino>? RigheScontrino { get; set; }
 }
