@@ -15,7 +15,9 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocal", policy =>
     {
-        policy.WithOrigins("http://localhost").AllowAnyMethod().AllowAnyHeader();
+        policy.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+              .AllowAnyMethod()
+              .AllowAnyHeader();
     });
 });
 
@@ -41,6 +43,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
 
 app.UseCors("AllowLocal");
 

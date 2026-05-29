@@ -1,0 +1,61 @@
+﻿@page
+@model FrontEnd.Pages.ElencoScontriniModel
+@{
+    ViewData["Title"] = "Elenco Scontrini Zeus";
+}
+
+<div class="container mt-4">
+    <h3>Filtro Scontrini Gestionale Zeus</h3>
+
+    <form method="post" class="row my-3 align-items-end">
+        <div class="col-md-3">
+            <label class="form-label fw-bold">Seleziona Data:</label>
+            <input type="date" class="form-control" asp-for="DataSelezionata" />
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100">
+                <span>Scarica Scontrini</span>
+            </button>
+        </div>
+    </form>
+
+    @if (!string.IsNullOrEmpty(Model.Errore))
+    {
+        <div class="alert alert-danger">@Model.Errore</div>
+    }
+
+    @if (Model.ListaScontrini == null)
+    {
+        <p class="text-muted">Scegli una data e premi il pulsante per mostrare i dati.</p>
+    }
+    else if (!Model.ListaScontrini.Any())
+    {
+        <div class="alert alert-warning">Nessuno scontrino trovato per questa giornata.</div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped mt-3">
+            <thead class="table-dark">
+                <tr>
+                    <th>Numero</th>
+                    <th>Data e Ora</th>
+                    <th>Cassa</th>
+                    <th>Pezzi</th>
+                    <th>Totale</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var s in Model.ListaScontrini)
+                {
+                    <tr>
+                        <td>@s.NumeroScontrino</td>
+                        <td>@s.DataScontrino.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@s.NumeroCassa</td>
+                        <td>@s.NumeroProdotti</td>
+                        <td>€ @s.Totale.ToString("N2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
