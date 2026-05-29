@@ -32,7 +32,7 @@ namespace FrontEnd.Pages
             try
             {
                 // Costruisce la route dinamica verso il backend FSL
-                string url = $"https://localhost:7025/Scontrini/scontrinigiornata/{DataSelezionata.Year}/{DataSelezionata.Month:D2}/{DataSelezionata.Day:D2}";
+                string url = $"http://localhost:5073/Scontrini/scontrinigiornata/{DataSelezionata.Year}/{DataSelezionata.Month:D2}/{DataSelezionata.Day:D2}";
 
                 // Interroga il backend
                 ListaScontrini = await _http.GetFromJsonAsync<List<TestaScontrinoDTO>>(url);

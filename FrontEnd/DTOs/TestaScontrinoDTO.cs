@@ -28,7 +28,7 @@ public class TestaScontrinoDTO
 
     public string? Note { get; set; }
 
-    //public VenCassaDTO Cassa { get; set; } = new VenCassaDTO();
+    public VenCassaDTO Cassa { get; set; } = new VenCassaDTO();
 
-    //public List<RigaScontrinoDTO> Prodotti { get; set; } = new();
+    public List<RigaScontrinoDTO> Prodotti { get; set; } = new();
 }

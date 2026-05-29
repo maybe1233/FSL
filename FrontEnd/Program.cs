@@ -5,7 +5,7 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddScoped(sp => new HttpClient
 {
-    BaseAddress = new Uri("https://localhost:7025/")
+    BaseAddress = new Uri("http://localhost:5073/")
 });
 var app = builder.Build();
 
