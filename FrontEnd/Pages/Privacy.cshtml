@@ -1,8 +1,38 @@
 ﻿@page
 @model PrivacyModel
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Piracy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
+
+<div class="container my-5 privacy-container text-center">
+
+    <h1 class="display-3 fw-bold text-uppercase mb-4 text-light">@ViewData["Title"]</h1>
+    <body>
+        <p class="fs-3 mb-2 text-dark" , style="background-color:powderblue">We are pirates that sail the seven seas!</p>
+    </body>
+    
+    <p class="fs-4 text-warning mb-4">Arg, give me those doubloons!!! 🪙</p>
+
+    <div class="my-4">
+        <img src="https://media-assets.vanityfair.it/photos/64ea2430360b180652dee317/4:3/w_900,h_675,c_limit/film%20pirati%20-%20pirati%20dei%20caraibi.jpg"
+             alt="Immagine Pirati"
+             class="img-fluid rounded shadow-lg"
+             style="max-width: 700px;" />
+    </div>
+
+    <p class="text-lightfs-5 mt-4">Nessun dato verrà condiviso al di fuori del raggio dei nostri cannoni.</p>
+</div>
+
+<style>
+    /* Forziamo l'uso del font esotico su TUTTO il testo dentro il contenitore */
+    .privacy-container,
+    .privacy-container h1,
+    .privacy-container p {
+        font-family: 'Pirata One', 'Courier New', serif !important;
+        letter-spacing: 1.8px; /* Rende il font ancora più leggibile e stiloso */
+    }
+</style>

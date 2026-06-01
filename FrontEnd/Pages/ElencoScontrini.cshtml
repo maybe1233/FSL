@@ -1,61 +1,151 @@
 ﻿@page
 @model FrontEnd.Pages.ElencoScontriniModel
 @{
-    ViewData["Title"] = "Elenco Scontrini Zeus";
+    ViewData["Title"] = "Elenco Scontrini - Zeus";
 }
 
-<div class="container mt-4">
-    <h3>Filtro Scontrini Gestionale Zeus</h3>
+<div class="container-fluid px-4 py-4">
 
-    <form method="post" class="row my-3 align-items-end">
-        <div class="col-md-3">
-            <label class="form-label fw-bold">Seleziona Data:</label>
-            <input type="date" class="form-control" asp-for="DataSelezionata" />
+    <div class="d-flex justify-content-start align-items-center mb-4 pb-2 border-bottom">
+        <div>
+            <h1 class="h3 mb-1 text-primary fw-bold">Gestionale Zeus</h1>
+            <p class="text-light mb-0 font-monospace small">Modulo Ricerca Scontrini</p>
         </div>
-        <div class="col-md-3">
-            <button type="submit" class="btn btn-primary w-100">
-                <span>Scarica Scontrini</span>
-            </button>
-        </div>
-    </form>
+    </div>
 
     @if (!string.IsNullOrEmpty(Model.Errore))
     {
-        <div class="alert alert-danger">@Model.Errore</div>
+        <div class="alert alert-danger d-flex align-items-center shadow-sm mb-4" role="alert">
+            <div class="me-2">⚠️</div>
+            <div><strong>Errore di comunicazione:</strong> @Model.Errore</div>
+        </div>
     }
+
+    <div class="card shadow-sm border-0 bg-light mb-4">
+        <div class="card-body py-3">
+            <form method="post" class="row g-3 align-items-end">
+                <div class="col-12 col-md-4 col-lg-3">
+                    <label class="form-label small fw-bold text-black text-uppercase tracking-wider">Filtra per Data Vendita</label>
+                    <div class="input-group">
+                        <input type="date" class="form-control" asp-for="DataSelezionata" />
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 col-lg-2">
+                    <button type="submit" class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2 fw-semibold">
+                        <span>Aggiorna Dati</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     @if (Model.ListaScontrini == null)
     {
-        <p class="text-muted">Scegli una data e premi il pulsante per mostrare i dati.</p>
+        /* RETTANGOLO NESSUN DATO CARICATO */
+        <div class="text-center py-5 border rounded-3 shadow-sm" style="background-color: #F5F5F5; border-color: #2D2D2D !important;">
+            <div class="mb-3 text-primary" style="font-size: 2.5rem;">📅</div>
+            <h5 class="text-primary fw-bold">Nessun dato caricato</h5>
+            <p class="text-secondary small mb-0">Seleziona una data operativa e premi "Aggiorna Dati" per interrogare il Data Base Zeus.</p>
+        </div>
     }
     else if (!Model.ListaScontrini.Any())
     {
-        <div class="alert alert-warning">Nessuno scontrino trovato per questa giornata.</div>
+        /* RETTANGOLO NESSUNO SCONTRINO TROVATO */
+        <div class="border rounded-3 shadow-sm d-flex flex-column align-items-center text-center py-5" style="background-color: #F5F5F5; border-color: #2D2D2D !important;" role="alert">
+            <div class="fs-1 mb-2 text-primary">🔍</div>
+            <h5 class="fw-bold text-dark mb-1">Nessuno scontrino trovato</h5>
+            <p class="mb-0 text-black small">Non sono presenti transazioni registrate a sistema per il giorno @Model.DataSelezionata.ToString("dd/MM/yyyy").</p>
+        </div>
     }
     else
     {
-        <table class="table table-bordered table-striped mt-3">
-            <thead class="table-dark">
-                <tr>
-                    <th>Numero</th>
-                    <th>Data e Ora</th>
-                    <th>Cassa</th>
-                    <th>Pezzi</th>
-                    <th>Totale</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var s in Model.ListaScontrini)
-                {
-                    <tr>
-                        <td>@s.NumeroScontrino</td>
-                        <td>@s.DataScontrino.ToString("dd/MM/yyyy HH:mm")</td>
-                        <td>@s.NumeroCassa</td>
-                        <td>@s.NumeroProdotti</td>
-                        <td>€ @s.Totale.ToString("N2")</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <div class="row g-3 mb-4">
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card border-0 border-start border-primary border-4 shadow-sm h-100 bg-white">
+                    <div class="card-body py-3">
+                        <div class="text-muted small text-uppercase fw-bold tracking-wider mb-1">Fatturato Giornaliero</div>
+                        <div class="h2 mb-0 fw-bold text-dark font-monospace">€ @Model.IncassoTotale.ToString("N2")</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card border-0 border-start border-success border-4 shadow-sm h-100 bg-white">
+                    <div class="card-body py-3">
+                        <div class="text-muted small text-uppercase fw-bold tracking-wider mb-1">Transazioni Totali</div>
+                        <div class="h2 mb-0 fw-bold text-dark font-monospace">@Model.TotaleScontrini</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card border-0 border-start border-warning border-4 shadow-sm h-100 bg-white">
+                    <div class="card-body py-3">
+                        <div class="text-muted small text-uppercase fw-bold tracking-wider mb-1">Valore Medio Scontrino</div>
+                        <div class="h2 mb-0 fw-bold text-dark font-monospace">€ @Model.CarrelloMedio.ToString("N2")</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card border-0 border-start border-purple border-4 shadow-sm h-100 bg-white">
+                    <div class="card-body py-3">
+                        <div class="text-muted small text-uppercase fw-bold tracking-wider mb-1">Pagamento Prevalente</div>
+                        <div class="h2 mb-0 fw-bold text-dark font-monospace text-uppercase">@Model.MetodoPrevalente.ToString().ToUpper()</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 text-dark fw-bold card-title small text-uppercase tracking-wide text-secondary">Registro Scontrini Analitico</h5>
+                <span class="badge bg-secondary font-monospace">Righe: @Model.TotaleScontrini</span>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 text-nowrap">
+                    <thead class="table-light border-bottom text-secondary small text-uppercase fw-bold">
+                        <tr>
+                            <th scope="col" class="ps-4 py-3">N° Scontrino</th>
+                            <th scope="col" class="py-3">Timestamp Vendita</th>
+                            <th scope="col" class="py-3 text-center">ID Cassa</th>
+                            <th scope="col" class="py-3 text-center">N° Articoli</th>
+                            <th scope="col" class="py-3 text-center">Metodo Pagamento</th>
+                            <th scope="col" class="py-3 text-end">Importo Totale</th>
+                            <th scope="col" class="py-3 text-center pe-4">Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-top-0 font-monospace">
+                        @foreach (var s in Model.ListaScontrini)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold text-primary">#@s.NumeroScontrino</td>
+                                <td class="text-secondary">@s.DataScontrino.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td class="text-center"><span class="badge bg-light text-dark border font-monospace">Cassa @s.NumeroCassa</span></td>
+                                <td class="text-center fw-semibold text-dark">@s.NumeroProdotti.ToString("0.##")</td>
+                                <td class="text-center">
+                                    <span class="badge bg-secondary text-uppercase px-2 py-1" style="font-size: 0.75rem;">
+                                        @s.MetodoPagamento.ToString().ToUpper()
+                                    </span>
+                                </td>
+                                <td class="text-end fw-bold text-dark fs-6">€ @s.Totale.ToString("N2")</td>
+                                <td class="text-center pe-4">
+                                    <a asp-page="/DettaglioScontrino" asp-route-NumeroScontrinoCercato="@s.NumeroScontrino" class="btn btn-sm btn-outline-primary py-1 px-2 fw-semibold" style="font-size: 0.8rem;">
+                                        🔍 Vedi Scontrino
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     }
 </div>
+
+<style>
+    /* Colore personalizzato viola/indaco per il bordo del nuovo KPI */
+    .border-purple {
+        border-color: #6f42c1 !important;
+    }
+</style>

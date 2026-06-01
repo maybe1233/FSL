@@ -1,31 +1,112 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
+
+/* Gestione del Focus nativa (riflesso) */
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem rgba(189, 4, 4, 0.5); 
+    border-color: #BD0404;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    /* colore sfondo */
+    background-color: #1A1818;
+    /* colore del testo (le scritte normali, i paragrafi e le etichette) della pagina. */
+    color: #F1F5F9;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+    color: var(--bs-secondary-color);
+    text-align: end;
 }
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+    text-align: start;
+}
+
+/* ==========================================
+   PERSONALIZZAZIONI BRAND ZEUS 
+   ========================================== */
+
+/* Colore primario per i titoli della dashboard Titoli principali coordinati con il rosso della barra */
+.text-primary, h1, h3, .card-title {
+    color: #FF3344 !important;
+}
+
+/* Pulsante "Aggiorna Dati"  */
+.btn-primary {
+    background-color: #9B000E !important;
+    border-color: #9B000E !important;
+    transition: all 0.2s ease-in-out;
+}
+
+    /* Effetto Hover sul pulsante */
+    .btn-primary:hover {
+        background-color: #80010D !important;
+        border-color: #80010D !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 128, 0.2);
+    }
+
+/* Adattamento delle card */
+.card {
+    background-color: #F5F5F5 !important;
+    border: 1px solid #2D2D2D !important;
+}
+
+/* Intestazione della Tabella Scontrini  */
+.table-light {
+    background-color: #B3A1A3 !important;
+    color: #120E0F !important;
+}
+
+/* Manteniamo le tabelle pulite e ben visibili */
+.table th {
+    color: #120E0F !important; /* Forza il testo dell'header a rimanere bianco */
+}
+
+/* Bordi personalizzati per le card KPI */
+.border-primary {
+    border-left: 5px solid #BD0404 !important;
+}
+
+/* Colore dei link testuali del brand */
+.text-primary-link {
+    color: #BD0404;
+    text-decoration: none;
+}
+
+    .text-primary-link:hover {
+        text-decoration: underline;
+    }
+
+/* ==========================================
+   AGGIUNTA: EFFETTO HOVER DEI PULSANTI NAVBAR
+   ========================================== */
+.navbar-nav .nav-link {
+    transition: color 0.15s ease-in-out;
+}
+
+    .navbar-nav .nav-link:hover {
+        color: rgba(255, 255, 255, 0.75) !important; /* Diventa leggermente opaco al passaggio del mouse */
+    }
+
+/* Personalizzazione della casella di selezione data */
+input[type="date"].form-control {
+    background-color: #000000 !important; /* Sfondo nero della casella */
+    color: #F1F5F9 !important; /* Testo della data in bianco sporco */
+    border: 1px solid #2D2D2D !important; /* Bordo grigio scuro sottile */
+
 }

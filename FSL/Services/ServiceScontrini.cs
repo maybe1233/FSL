@@ -4,6 +4,7 @@ using FSL.Data;
 using FSL.DTOs;
 using FSL.Utilities;
 using FSL.Entities;
+using System.Diagnostics;
 namespace FSL.Services
 {
     public class ServiceScontrini : IServiceScontrini
@@ -57,10 +58,18 @@ namespace FSL.Services
         public List<TestaScontrinoDTO> GetScontrini(int anno, int mese, int giorno)
         {
             var data = new DateTime(anno, mese, giorno);
+            List<TestaScontrino> scontrini = [];
 
-            var scontrini = _context.TestaScontrini
-                .Where(s => s.DataScontrino.Date == data.Date)
-                .ToList();
+            try
+            {
+                scontrini = _context.TestaScontrini
+                    .Where(s => s.DataScontrino.Date == data.Date)
+                    .ToList();
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine($"succede: {ex.Message}");
+            }
 
             var result = new List<TestaScontrinoDTO>();
 
