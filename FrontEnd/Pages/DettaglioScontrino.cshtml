@@ -1,0 +1,198 @@
+﻿@page
+@model DettaglioScontrinoModel
+@{
+    ViewData["Title"] = "Dettaglio Scontrino - Zeus";
+
+    // Calcolo dello scorporo IVA al 22% in tempo reale se il campo generale è vuoto
+    decimal ivaCalcolata = 0;
+    if (Model.Scontrino != null && Model.Scontrino.Totale > 0)
+    {
+        ivaCalcolata = Model.Scontrino.Totale - (Model.Scontrino.Totale / 1.22m);
+    }
+}
+
+<div class="container my-5 d-flex flex-column align-items-center">
+
+    <div class="d-flex justify-content-between w-100 mb-4" style="max-width: 450px;">
+        <a asp-page="/Index" class="btn btn-outline-secondary btn-sm">← Torna alla Console</a>
+        <button onclick="window.print()" class="btn btn-primary btn-sm">🖨️ Stampa Scontrino</button>
+    </div>
+
+    <div class="card border-0 shadow mb-4 w-100" style="background-color: #121212; border: 1px solid #2D2D2D !important; max-width: 450px;">
+        <div class="card-body p-3">
+            <form method="post" class="row g-2 align-items-end">
+                <div class="col-8">
+                    <label class="form-label text-secondary small fw-semibold font-monospace">ID SCONTRINO</label>
+                    <input type="text" asp-for="NumeroScontrinoCercato" class="form-control bg-dark text-white border-secondary font-monospace" placeholder="Es. 1024" required />
+                </div>
+                <div class="col-4">
+                    <button type="submit" class="btn btn-primary w-100 fw-semibold">CERCA</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.Errore))
+    {
+        <div class="alert alert-danger border-0 shadow w-100" style="max-width: 450px;">
+            ⚠️ @Model.Errore
+        </div>
+    }
+
+    @if (Model.RicercaEffettuata && Model.Scontrino != null)
+    {
+        <div class="receipt-paper shadow-lg">
+
+            <div class="text-center mb-3">
+                <h4 class="fw-bold mb-0">@Model.Scontrino.NomeNegozio.ToString().ToUpper()</h4>
+                <div class="small">@Model.Scontrino.NomeCitta.ToString().ToUpper()</div>
+                <div class="small">P.IVA: 01234567890</div>
+            </div>
+
+            <div class="receipt-divider"></div>
+
+            <div class="font-monospace small">
+                <div>DATA: @Model.Scontrino.DataScontrino.ToString("dd/MM/yyyy")</div>
+                <div>ORA:  @Model.Scontrino.DataScontrino.ToString("HH:mm:ss")</div>
+                <div>NUMERO SCONTRINO: @Model.Scontrino.NumeroScontrino</div>
+                <div>CASSA: @Model.Scontrino.NumeroCassa</div>
+            </div>
+
+            <div class="receipt-divider"></div>
+
+            <div class="text-center fw-bold mb-2">DOCUMENTO COMMERCIALE</div>
+
+            <div class="receipt-items font-monospace small">
+                @if (Model.Scontrino.Prodotti != null && Model.Scontrino.Prodotti.Any())
+                {
+                    @foreach (var articolo in Model.Scontrino.Prodotti)
+                    {
+                        // Calcoliamo il totale di riga moltiplicando i due campi reali rilevati
+                        decimal totaleRiga = articolo.Quantita * articolo.Prezzo;
+
+                        <div class="mb-2">
+                            <div class="text-uppercase fw-bold text-dark">@articolo.Nome.ToString().ToUpper()</div>
+                            
+                            <div class="d-flex justify-content-between text-muted">
+                                <span>  @articolo.Quantita.ToString("0.##") x € @articolo.Prezzo.ToString("N2")</span>
+                                <span class="text-dark">€ @totaleRiga.ToString("N2")</span>
+                            </div>
+                        </div>
+                    }
+                    // (Iva @articolo.IvaProdotto%)
+                }
+                else
+                {
+                    <div class="d-flex justify-content-between">
+                        <span>NESSUN PRODOTTO IN ELENCO</span>
+                        <span>€ @Model.Scontrino.Totale</span>
+                    </div>
+                }
+            </div>
+
+            <div class="receipt-divider"></div>
+
+            <div class="font-monospace small mb-2 text-end text-muted">
+                N. PEZZI TOTALI: @Model.Scontrino.NumeroProdotti.ToString("0.##")
+            </div>
+
+            <div class="receipt-divider"></div>
+
+            <div class="d-flex justify-content-between fw-bold fs-4 font-monospace">
+                <span>TOTALE</span>
+                <span>€ @Model.Scontrino.Totale.ToString("N2")</span>
+            </div>
+
+            <div class="font-monospace small mt-2">
+                <div class="d-flex justify-content-between text-muted">
+                    <span>DI CUI IVA (22%)</span>
+                   <span>
+    @if (decimal.TryParse(Model.Scontrino.IvaTotale, out decimal ivaValore) && ivaValore > 0)
+    {
+        <span>€ @ivaValore.ToString("N2")</span>
+    }
+    else
+    {
+        <span>€ @ivaCalcolata.ToString("N2")</span>
+    }
+</span>
+                </div>
+            </div>
+
+            <div class="receipt-divider"></div>
+
+            <div class="font-monospace">
+                <div class="d-flex justify-content-between">
+                    <span>PAGAMENTO:</span>
+                    <span>@Model.Scontrino.MetodoPagamento.ToString().ToUpper()</span>
+                </div>
+            </div>
+
+            <div class="receipt-divider"></div>
+
+            <div class="text-center font-monospace small mt-4">
+                <div>GRAZIE E ARRIVEDERCI</div>
+                <div class="mt-2" style="letter-spacing: 5px;">|||| || | ||||| | ||</div>
+                <div class="x-small">ZEUS OS v2.4.1</div>
+            </div>
+
+        </div>
+    }
+</div>
+
+<style>
+    .receipt-paper {
+        background-color: #ffffff;
+        color: #000000;
+        width: 100%;
+        max-width: 400px;
+        padding: 40px 30px;
+        font-family: 'Courier New', Courier, monospace;
+        position: relative;
+        border-top: 5px solid #333;
+    }
+
+    .receipt-divider {
+        border-top: 1px dashed #000;
+        margin: 15px 0;
+        width: 100%;
+    }
+
+    .font-monospace {
+        font-family: 'Courier New', Courier, monospace !important;
+    }
+
+    .receipt-items {
+        min-height: 60px;
+    }
+
+    @@media print {
+        body {
+            background: white;
+        }
+
+        .btn, form, .card, label, .d-flex.w-100 {
+            display: none !important;
+        }
+
+        .receipt-paper {
+            box-shadow: none !important;
+            max-width: 100%;
+            padding: 0;
+            border-top: none;
+        }
+
+        .container {
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    .bg-dark {
+        background-color: #1a1a1a !important;
+    }
+
+    .x-small {
+        font-size: 0.7rem;
+    }
+</style>

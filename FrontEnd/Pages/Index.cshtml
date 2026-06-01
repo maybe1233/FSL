@@ -1,10 +1,74 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home - Zeus";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 75vh;">
+
+    <div class="text-center mb-5" style="max-width: 600px;">
+        <div class="display-2 text-primary mb-2">⚡</div>
+        <h1 class="display-4 fw-bold text-white mb-2">Zeus Operating System</h1>
+        <p class="text-secondary font-monospace small mb-4">Console Centrale • v2.4.1 Production</p>
+        <p class="text-light fs-5">
+            Benvenuto nella piattaforma integrata. Da qui puoi monitorare lo stato dei sistemi ed accedere ai moduli operativi del punto vendita.
+        </p>
+    </div>
+
+    <div class="row g-4 justify-content-center w-100" style="max-width: 900px;">
+
+        <div class="col-12 col-md-4">
+            <div class="card h-100 border-0 shadow" style="background-color: #121212; border: 1px solid #2D2D2D !important;">
+                <div class="card-body p-4 text-center d-flex flex-column align-items-center justify-content-between">
+                    <div>
+                        <div class="fs-2 text-primary mb-3">🔍</div>
+                        <h4 class="text-black fw-bold mb-2">Ricerca Scontrini</h4>
+                        <p class="text-secondary small mb-0">Interroga il database, analizza i KPI giornalieri, il fatturato e il valore del carrello medio.</p>
+                    </div>
+                    <a asp-page="/ElencoScontrini" class="btn btn-primary w-100 fw-semibold mt-4">Apri Modulo</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="card h-100 border-0 shadow" style="background-color: #121212; border: 1px solid #2D2D2D !important;">
+                <div class="card-body p-4 text-center d-flex flex-column align-items-center justify-content-between">
+                    <div>
+                        <div class="fs-2 text-warning mb-3">🧾</div>
+                        <h4 class="text-black fw-bold mb-2">Dettaglio Scontrino</h4>
+                        <p class="text-secondary small mb-0">Inserisci il numero identificativo di un singolo scontrino per estrarre l'elenco articoli e i dati di pagamento.</p>
+                    </div>
+                    <a asp-page="/DettaglioScontrino" class="btn btn-warning text-dark w-100 fw-semibold mt-4">Apri Dettaglio</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="card h-100 border-0 shadow" style="background-color: #121212; border: 1px solid #2D2D2D !important;">
+                <div class="card-body p-4 text-center d-flex flex-column align-items-center justify-content-between">
+
+                    @if (Model.IsDatabaseConnesso)
+                    {
+                        <div>
+                            <div class="fs-2 text-info mb-3">🛜</div>
+                            <h4 class="text-black fw-bold mb-2">Stato Connessione</h4>
+                            <p class="text-secondary small mb-0">Verifica l'allineamento dei dati in tempo reale e lo stato dei server di integrazione Zeus.</p>
+                        </div>
+                        <button class="btn btn-info text-dark w-100 fw-semibold mt-4" disabled>Database Connesso</button>
+                    }
+                    else
+                    {
+                        <div>
+                            <div class="fs-2 text-danger mb-3">🔴</div>
+                            <h4 class="text-black fw-bold mb-2">Stato Connessione</h4>
+                            <p class="text-secondary small mb-0">Impossibile raggiungere il database Zeus. Controlla la rete o la stringa di connessione.</p>
+                        </div>
+                        <button class="btn btn-danger text-white w-100 fw-semibold mt-4" disabled>Database Disconnesso</button>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
