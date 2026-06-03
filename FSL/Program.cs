@@ -9,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddRazorPages();
+
 
 // CORS policy: AllowLocal -> origine http://localhost, tutti i metodi e header
 builder.Services.AddCors(options =>
@@ -27,6 +29,10 @@ builder.Services.AddDbContext<ZeusContext>(options =>
 
 // Registrazione servizio scoped
 builder.Services.AddScoped<IServiceScontrini, ServiceScontrini>();
+
+
+builder.Services.AddHttpClient();
+
 
 // OpenAPI solo in Development
 if (builder.Environment.IsDevelopment())
@@ -51,5 +57,7 @@ app.UseCors("AllowLocal");
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapRazorPages();
 
 app.Run();

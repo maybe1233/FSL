@@ -1,0 +1,137 @@
+﻿@page
+@model FSL.Pages.AssistenteAiModel
+@{
+    ViewData["Title"] = "Assistente ZEUS";
+}
+
+@Html.AntiForgeryToken()
+
+<div class="container mt-4">
+    <h2>Chiedi all'Assistente AI</h2>
+    <p class="text-muted">Interroga il sistema di gestione scontrini assistito da Claude.</p>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="card p-3 shadow-sm">
+                <h5 class="card-title border-bottom pb-2">Contesto Domanda</h5>
+
+                <div class="form-group mb-3">
+                    <label for="scontrini-ids" class="form-label font-weight-bold">ID Scontrini:</label>
+                    <input type="text" id="scontrini-ids" class="form-control" placeholder="Es. 10452, 10453" />
+                    <small class="text-muted d-block mt-1">ID singoli separati da virgola.</small>
+                </div>
+
+                <hr />
+
+                <div class="form-group mb-2">
+                    <label for="data-inizio" class="form-label font-weight-bold">Data Inizio / Singola:</label>
+                    <input type="date" id="data-inizio" class="form-control" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="data-fine" class="form-label font-weight-bold">Data Fine (Opzionale per intervallo):</label>
+                    <input type="date" id="data-fine" class="form-control" />
+                    <small class="text-muted d-block mt-1">Lascia vuoto se vuoi selezionare solo il giorno singolo di "Data Inizio".</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card">
+                <div id="chat-box" class="card-body" style="height: 430px; overflow-y: auto; background-color: #f8f9fa;">
+
+                    <div class="text-center pt-4 pb-2">
+                        <img src="/images/zeus2.jpg"
+                             alt="Logo Assistente ZEUS"
+                             class="img-fluid rounded-circle mb-3"
+                             style="width: 150px; height: 150px; object-fit: cover; border: 2px solid #007bff; box-shadow: 0px 4px 10px rgba(0,0,0,0.15);" />
+
+                        <p class="text-secondary mb-0">
+                            <em>L'assistente ZEUS è pronto. Chiedimi pure informazioni o statistiche sugli scontrini...</em>
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="card-footer d-flex gap-2">
+                    <input type="text" id="user-input" class="form-control" placeholder="Scrivi la tua domanda qui..." />
+                    <button class="btn btn-primary" onclick="inviaDomanda()">Invia</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function inviaDomanda() {
+        const inputElement = document.getElementById("user-input");
+        const scontriniInputElement = document.getElementById("scontrini-ids");
+        const dataInizioInput = document.getElementById("data-inizio");
+        const dataFineInput = document.getElementById("data-fine");
+        const chatBox = document.getElementById("chat-box");
+
+        const messaggioUtente = inputElement.value.trim();
+        const scontriniRaw = scontriniInputElement.value.trim();
+
+        if (!messaggioUtente) return;
+
+        // 1. Mostra il messaggio dell'utente nella chat
+        chatBox.innerHTML += `<div class="mb-2 text-end"><strong>Tu:</strong> <span class="bg-light p-2 d-inline-block rounded">${messaggioUtente}</span></div>`;
+        inputElement.value = "";
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        // 2. Mostra l'indicatore di caricamento
+        const loadingId = "loading-" + Date.now();
+        chatBox.innerHTML += `<div id="${loadingId}" class="mb-2 text-start text-muted"><em>L'assistente sta elaborando...</em></div>`;
+
+        // Conversione degli ID scontrino
+        const scontriniIds = scontriniRaw
+            ? scontriniRaw.split(',').map(id => parseInt(id.trim(), 10)).filter(id => !isNaN(id))
+            : [];
+
+        // 3. Recupera il token Antiforgery per la sicurezza .NET
+        const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        try {
+            // Chiamata AJAX verso l'handler C# OnPostChiediClaudeAsync
+            const response = await fetch('?handler=ChiediClaude', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': token
+                },
+                body: JSON.stringify({
+                    messaggio: messaggioUtente,
+                    scontriniIds: scontriniIds,
+                    dataInizio: dataInizioInput.value ? dataInizioInput.value : null,
+                    dataFine: dataFineInput.value ? dataFineInput.value : null
+                })
+            });
+
+            if (!response.ok) {
+                const testoErrore = await response.text();
+                throw new Error(testoErrore || "Errore del server");
+            }
+
+            const dati = await response.json();
+            const rispostaClaude = dati.content[0].text;
+
+            // 4. Rimuovi caricamento e mostra la risposta dell'AI
+            document.getElementById(loadingId).remove();
+            chatBox.innerHTML += `<div class="mb-2 text-start"><strong>ZEUS AI:</strong> <div class="bg-primary text-white p-2 d-inline-block rounded">${rispostaClaude}</div></div>`;
+
+        } catch (error) {
+            document.getElementById(loadingId).remove();
+            chatBox.innerHTML += `<div class="mb-2 text-start text-danger"><strong>Errore:</strong> ${error.message}</div>`;
+            console.error("Dettaglio Errore:", error);
+        }
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    document.getElementById("user-input").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            inviaDomanda();
+        }
+    });
+</script>

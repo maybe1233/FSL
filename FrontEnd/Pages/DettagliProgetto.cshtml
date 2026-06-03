@@ -1,0 +1,213 @@
+﻿@page
+@model FrontEnd.Pages.DettagliProgettoModel
+@{
+    ViewData["Title"] = "Dettagli Progetto - Zeus";
+}
+
+<div class="container my-5 text-white">
+    <div class="border-bottom pb-3 mb-4" style="border-color: #2D2D2D !important;">
+        <h1 class="h2 text-primary fw-bold font-monospace">DETTAGLI PROGETTO STAGE FSL 2026 </h1>
+        <h4 class="text-secondary fw-normal mt-2 mb-0">Maya Bernardi - 4CSA, Liceo Brocchi</h4>
+    </div>
+
+    <div class="card border-0 p-4 mb-4 shadow" style="background-color: #121212; border: 1px solid #2D2D2D !important;">
+        <div class="row align-items-center">
+
+            <div class="col-sm">
+                <p>
+                    Il progetto consiste nella progettazione e realizzazione di un'applicazione web sviluppata in .NET per centralizzare, proteggere, gestire e rendre facilmente consultabili i dati degli scontrini fiscali emessi dai punti vendita.
+                </p>
+                <p class="mb-0">
+                    Il software lavora interfacciandosi con il database aziendale preesistente chiamato Zeus, riuscendo a leggere le informazioni e recuperare gli scontrini in modo efficiente senza modificarne la struttura originale.
+                </p>
+            </div>
+
+            <div class="col-sm-auto text-end mt-3 mt-sm-0">
+                <img src="/images/logo-brocchi.png.png" alt="Logo Liceo Brocchi" class="img-fluid" style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%; box-shadow: 0px 0px 8px rgba(255,255,255,0.1);" />
+            </div>
+
+        </div>
+
+        <div class="mt-4">
+            <button class="btn btn-outline-primary fw-bold font-monospace text-start w-100 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStruttura" aria-expanded="false" aria-controls="collapseStruttura">
+                📑 STRUTTURA E ARCHITETTURA DEL PROGETTO
+            </button>
+
+            <div class="collapse" id="collapseStruttura">
+                <div class="card card-body border-0 mt-2 p-3 text-dark" style="background-color: #1a1a1a; border: 1px solid #2D2D2D !important;">
+                    <p>
+                        Per fare in modo che il codice rimanga ordinato, sicuro e facile da aggiornare in futuro ho creato due parti separate:
+                    </p>
+                    <ul class="text-dark">
+                        <li><strong class="text-dark">Backend:</strong> Coincide con la logica. Non ha una grafica, è la parte che fa i calcoli, controlla la sicurezza e parla direttamente con il database Zeus</li>
+                        <li><strong class="text-dark">Frontend:</strong> Contiene l'interfaccia utente e la grafica. È la pagina web vera e propria che l'utente vede sullo schermo, completa di tabelle, calendari e tasti per cercare gli scontrini</li>
+                    </ul>
+
+                    <h4 class="text-warning h6 font-monospace mt-4 mb-3">DIAGRAMMA DELLE CARTELLE</h4>
+
+                    <button class="btn btn-sm btn-secondary w-100 font-monospace mb-2 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFSL" aria-expanded="false">
+                        📁 Mostra Struttura Progetto FSL (Backend)
+                    </button>
+                    <div class="collapse" id="collapseFSL">
+                        <pre class="text-white p-3 rounded mb-3" style="background-color: #1e1e1e; border: 1px solid #2D2D2D; font-size: 0.9rem; overflow-x: auto;">
+BackEnd/
+│
+├── Controllers/                    🎯 ENTRY POINT - Riceve le richieste HTTP
+│   └── ScontriniController.cs      • GET /scontrino/{id}
+│                                   • GET /scontrinigiornata/{anno}/{mese}/{giorno}
+│
+├── Services/                        💼 BUSINESS LOGIC - Elabora i dati
+│   ├── IServiceScontrini.cs        • Interfaccia (contratto)
+│   └── ServiceScontrini.cs         • Implementazione (logica di ricerca e conversione)
+│
+├── Data/                            🗄️ DATABASE LAYER - Comunica con SQL Server
+│   └── ZeusContext.cs              • DbContext (Entity Framework)
+│                                   • Configura relazioni tra tabelle
+│                                   • DbSet per accedere ai dati
+│
+├── Entities/                        📋 MODELLI DOMINIO - Rispecchiano DB
+│   ├── TestaScontrino.cs           • Mappa tabella: sto_TestaScontrini
+│   ├── RigaScontrino.cs            • Mappa tabella: sto_RigheScontrini
+│   └── VenCassa.cs                 • Mappa tabella: ven_Cassa (Pagamenti)
+│
+├── DTOs/                            📦 TRANSFER OBJECTS - Formato JSON safe
+│   ├── TestaScontrinoDTO.cs        • Scontrino serializzabile (senza circular ref)
+│   ├── RigaScontrinoDTO.cs         • Riga prodotto in JSON
+│   └── CassaDTO.cs                 • Metodi pagamento
+│
+├── utilities/                      🔧 UTILITY - Funzioni ausiliarie
+│   ├── Converter.cs                • Entity → DTO (mapping automatico)
+│   └── Utility.cs                  • Caricamento configurazioni da appsettings
+│
+├── Program.cs                      ⚙️ CONFIGURAZIONE
+│                                   • DbContext + SQL Server
+│                                   • CORS (localhost allowed)
+│                                   • Dependency Injection
+│                                   • Registrazione servizi
+│
+└── appsettings.json                🔐 CONFIGURAZIONE
+                                    • Connection string SQL Server
+                                    • Dati negozio (nome, telefono, etc.)
+                        </pre>
+                    </div>
+
+                    <button class="btn btn-sm btn-secondary w-100 font-monospace mb-2 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFE" aria-expanded="false">
+                        📁 Mostra Struttura Progetto FrontEnd
+                    </button>
+                    <div class="collapse" id="collapseFE">
+                        <pre class="text-white p-3 rounded" style="background-color: #1e1e1e; border: 1px solid #2D2D2D; font-size: 0.9rem; overflow-x: auto;">
+FrontEnd/
+│
+├── Pages/                          🖥️ PAGINE WEB - UI Utente
+│   ├── Index.cshtml                • Dashboard - Verifica connessione DB
+│   ├── Index.cshtml.cs             • Logic: test connessione API
+│   │
+│   ├── DettaglioScontrino.cshtml   • Form ricerca scontrino
+│   └── DettaglioScontrino.cshtml.cs • Logic: GET da API, mostra risultati
+│
+├── DTOs/                            📦 STESSE STRUTTURE DEL BACKEND
+│   ├── TestaScontrinoDTO.cs        • Per deserializzare JSON dalla API
+│   └── RigaScontrinoDTO.cs
+│
+├── Program.cs                      ⚙️ CONFIGURAZIONE
+│                                  • HttpClient → http://localhost:5073
+│                                  • Razor Pages registration
+│
+└── appsettings.json
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button class="btn btn-outline-primary fw-bold font-monospace text-start w-100 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFunzionamento" aria-expanded="false" aria-controls="collapseFunzionamento">
+                ⚙️ COME FUNZIONA IL PROGRAMMA E COME COMUNICA CON IL DATABASE
+            </button>
+
+            <div class="collapse" id="collapseFunzionamento">
+                <div class="card card-body border-0 mt-2 p-3 text-dark" style="background-color: #1a1a1a; border: 1px solid #2D2D2D !important;">
+
+                    <h4 class="text-warning h6 font-monospace mt-2 mb-3">🔄 Flusso di Lavoro: Richiesta e Recupero Dati</h4>
+
+                    <pre class="text-white p-3 rounded" style="background-color: #1e1e1e; border: 1px solid #2D2D2D; font-size: 0.9rem; overflow-x: auto;">
+[ UTENTE / BROWSER ] ➔ Sceglie una data sul calendario (es. 25 Maggio)
+         │
+         ▼
+ [ INTERFACCIA GRAFICA ] ➔ Invia una richiesta via rete alla API
+         │
+         ▼
+ [ CERVELLO LOGICO ] ➔ Riceve la richiesta, legge le tabelle del Database
+         │
+         ▼
+ [ DATABASE "ZEUS" ] ➔ Custodisce le 3 tabelle: Testate, Prodotti e Pagamenti
+         │
+ (Il percorso si inverte: il dato torna indietro)
+         │
+         ▼
+ [ CERVELLO LOGICO ] ➔ Ripulisce i dati, calcola l'IVA e crea un "pacchetto regalo" pulito (DTO)
+         │
+         ▼
+ [ INTERFACCIA GRAFICA ] ➔ Scarta il pacchetto e disegna lo scontrino termico a schermo
+                    </pre>
+
+                    <p>
+                        Il database dell'azienda è diviso in tre tabelle principali:
+                        la Testata (con la data e il totale),
+                        le Righe (l'elenco dei prodotti comprati)
+                        e la Cassa (il riepilogo di quanti soldi sono entrati in contanti o con carta).
+                    </p>
+
+                    <p>
+                        Per evitare di rallentare il server dell'azienda,
+                        il programma usa due strategie di ricerca differenti a seconda di cosa chiede l'utente:
+                    </p>
+
+                    <div class="row g-2 mt-3">
+                        <div class="col-md-6">
+                            <button class="btn btn-sm btn-outline-warning w-100 font-monospace" type="button" data-bs-toggle="collapse" data-bs-target="#subCollapseData" aria-expanded="false" aria-controls="subCollapseData">
+                                📅 RICERCA SCONTRINI PER DATA
+                            </button>
+                            <div class="collapse mt-2" id="subCollapseData">
+                                <div class="p-3 rounded border border-secondary text-white small" style="background-color: #2d2d2d;">
+                                    <h5 class="text-warning">A cosa serve</h5>
+                                    <p>
+                                        A fare i report giornalieri (vedere tutte le vendite di un determinato giorno).
+                                    </p>
+                                    <h5 class="text-warning">Come funziona</h5>
+                                    <p>
+                                        Per non sovraccaricare il server con troppi dati, il sistema lavora in due passaggi:
+                                        prima mostra l'elenco generale degli scontrini del giorno e poi carica i dettagli di ognuno.
+                                        Se il negozio era chiuso, mostra semplicemente una lista vuota senza dare errore.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <button class="btn btn-sm btn-outline-warning w-100 font-monospace" type="button" data-bs-toggle="collapse" data-bs-target="#subCollapseSingolo" aria-expanded="false" aria-controls="subCollapseSingolo">
+                                🔍 RICERCA SCONTRINO SINGOLO
+                            </button>
+                            <div class="collapse mt-2" id="subCollapseSingolo">
+                                <div class="p-3 rounded border border-secondary text-white small" style="background-color: #2d2d2d;">
+                                    <h5 class="text-warning">A cosa serve</h5>
+                                    <p>
+                                        A cercare un numero specifico di scontrino per vederlo o ristamparlo.
+                                    </p>
+                                    <h5 class="text-warning">Come funziona</h5>
+                                    <p>
+                                        Il programma fa una richiesta al database e carica tutto insieme (dati generali, prodotti e pagamento).
+                                        Se nota un'anomalia (ad esempio uno scontrino senza prodotti), per sicurezza mostra una scheda vuota
+                                        invece di visualizzare dati parziali o errati.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

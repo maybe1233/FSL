@@ -43,16 +43,16 @@
     {
         /* RETTANGOLO NESSUN DATO CARICATO */
         <div class="text-center py-5 border rounded-3 shadow-sm" style="background-color: #F5F5F5; border-color: #2D2D2D !important;">
-            <div class="mb-3 text-primary" style="font-size: 2.5rem;">📅</div>
+            <div class="mb-3 text-primary" style="font-size: 2.5rem;">📂</div>
             <h5 class="text-primary fw-bold">Nessun dato caricato</h5>
-            <p class="text-secondary small mb-0">Seleziona una data operativa e premi "Aggiorna Dati" per interrogare il Data Base Zeus.</p>
+            <p class="text-secondary small mb-0">Seleziona una data operativa e premi "Aggiorna Dati" per interrogare il database Zeus.</p>
         </div>
     }
     else if (!Model.ListaScontrini.Any())
     {
         /* RETTANGOLO NESSUNO SCONTRINO TROVATO */
         <div class="border rounded-3 shadow-sm d-flex flex-column align-items-center text-center py-5" style="background-color: #F5F5F5; border-color: #2D2D2D !important;" role="alert">
-            <div class="fs-1 mb-2 text-primary">🔍</div>
+            <div class="fs-1 mb-2 text-primary">❌</div>
             <h5 class="fw-bold text-dark mb-1">Nessuno scontrino trovato</h5>
             <p class="mb-0 text-black small">Non sono presenti transazioni registrate a sistema per il giorno @Model.DataSelezionata.ToString("dd/MM/yyyy").</p>
         </div>

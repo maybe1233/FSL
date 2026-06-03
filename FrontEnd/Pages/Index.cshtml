@@ -7,11 +7,12 @@
 <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 75vh;">
 
     <div class="text-center mb-5" style="max-width: 600px;">
-        <div class="display-2 text-primary mb-2">⚡</div>
-        <h1 class="display-4 fw-bold text-white mb-2">Zeus Operating System</h1>
+        <div class="mb-4">
+            <img src="/images/zeus4.png" alt="Logo" class="img-fluid" style="max-height: 300px; width: auto; object-fit: contain;" />
+        </div>
         <p class="text-secondary font-monospace small mb-4">Console Centrale • v2.4.1 Production</p>
         <p class="text-light fs-5">
-            Benvenuto nella piattaforma integrata. Da qui puoi monitorare lo stato dei sistemi ed accedere ai moduli operativi del punto vendita.
+            Benvenuto nella piattaforma di ricerca e recupero scontrini. Consulta i dettagli, verifica i pagamenti e gestisci i documenti del punto vendita.
         </p>
     </div>
 
@@ -23,7 +24,7 @@
                     <div>
                         <div class="fs-2 text-primary mb-3">🔍</div>
                         <h4 class="text-black fw-bold mb-2">Ricerca Scontrini</h4>
-                        <p class="text-secondary small mb-0">Interroga il database, analizza i KPI giornalieri, il fatturato e il valore del carrello medio.</p>
+                        <p class="text-secondary small mb-0">Seleziona una data per recuperare all'istante i dettagli delle transizionie alla reportistica del punto vendita.</p>
                     </div>
                     <a asp-page="/ElencoScontrini" class="btn btn-primary w-100 fw-semibold mt-4">Apri Modulo</a>
                 </div>
@@ -36,7 +37,7 @@
                     <div>
                         <div class="fs-2 text-warning mb-3">🧾</div>
                         <h4 class="text-black fw-bold mb-2">Dettaglio Scontrino</h4>
-                        <p class="text-secondary small mb-0">Inserisci il numero identificativo di un singolo scontrino per estrarre l'elenco articoli e i dati di pagamento.</p>
+                        <p class="text-secondary small mb-0">Inserisci il numero identificativo di un singolo scontrino per estrarre tutti i suoi dettagli.</p>
                     </div>
                     <a asp-page="/DettaglioScontrino" class="btn btn-warning text-dark w-100 fw-semibold mt-4">Apri Dettaglio</a>
                 </div>
@@ -59,7 +60,7 @@
                     else
                     {
                         <div>
-                            <div class="fs-2 text-danger mb-3">🔴</div>
+                            <div class="fs-2 text-danger mb-3">⚠</div>
                             <h4 class="text-black fw-bold mb-2">Stato Connessione</h4>
                             <p class="text-secondary small mb-0">Impossibile raggiungere il database Zeus. Controlla la rete o la stringa di connessione.</p>
                         </div>
