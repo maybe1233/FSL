@@ -29,7 +29,7 @@
         </div>
 
         <div class="mt-4">
-            <button class="btn btn-outline-primary fw-bold font-monospace text-start w-100 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStruttura" aria-expanded="false" aria-controls="collapseStruttura">
+            <button class="btn btn-custom-main fw-bold font-monospace text-start w-100 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStruttura" aria-expanded="false" aria-controls="collapseStruttura">
                 📑 STRUTTURA E ARCHITETTURA DEL PROGETTO
             </button>
 
@@ -43,77 +43,77 @@
                         <li><strong class="text-dark">Frontend:</strong> Contiene l'interfaccia utente e la grafica. È la pagina web vera e propria che l'utente vede sullo schermo, completa di tabelle, calendari e tasti per cercare gli scontrini</li>
                     </ul>
 
-                    <h4 class="text-warning h6 font-monospace mt-4 mb-3">DIAGRAMMA DELLE CARTELLE</h4>
+                    <h4 class="h6 font-monospace mt-4 mb-3 fw-bold" style="color: #000000 !important;">DIAGRAMMA DELLE CARTELLE</h4>
 
-                    <button class="btn btn-sm btn-secondary w-100 font-monospace mb-2 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFSL" aria-expanded="false">
-                        📁 Mostra Struttura Progetto FSL (Backend)
+                    <button class="btn btn-sm btn-custom-sub w-100 font-monospace mb-2 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFSL" aria-expanded="false">
+                        📁 MOSTRA STRUTTURA PROGETTO BACKEND
                     </button>
                     <div class="collapse" id="collapseFSL">
                         <pre class="text-white p-3 rounded mb-3" style="background-color: #1e1e1e; border: 1px solid #2D2D2D; font-size: 0.9rem; overflow-x: auto;">
-BackEnd/
-│
-├── Controllers/                    🎯 ENTRY POINT - Riceve le richieste HTTP
-│   └── ScontriniController.cs      • GET /scontrino/{id}
-│                                   • GET /scontrinigiornata/{anno}/{mese}/{giorno}
-│
-├── Services/                        💼 BUSINESS LOGIC - Elabora i dati
-│   ├── IServiceScontrini.cs        • Interfaccia (contratto)
-│   └── ServiceScontrini.cs         • Implementazione (logica di ricerca e conversione)
-│
-├── Data/                            🗄️ DATABASE LAYER - Comunica con SQL Server
-│   └── ZeusContext.cs              • DbContext (Entity Framework)
-│                                   • Configura relazioni tra tabelle
-│                                   • DbSet per accedere ai dati
-│
-├── Entities/                        📋 MODELLI DOMINIO - Rispecchiano DB
-│   ├── TestaScontrino.cs           • Mappa tabella: sto_TestaScontrini
-│   ├── RigaScontrino.cs            • Mappa tabella: sto_RigheScontrini
-│   └── VenCassa.cs                 • Mappa tabella: ven_Cassa (Pagamenti)
-│
-├── DTOs/                            📦 TRANSFER OBJECTS - Formato JSON safe
-│   ├── TestaScontrinoDTO.cs        • Scontrino serializzabile (senza circular ref)
-│   ├── RigaScontrinoDTO.cs         • Riga prodotto in JSON
-│   └── CassaDTO.cs                 • Metodi pagamento
-│
-├── utilities/                      🔧 UTILITY - Funzioni ausiliarie
-│   ├── Converter.cs                • Entity → DTO (mapping automatico)
-│   └── Utility.cs                  • Caricamento configurazioni da appsettings
-│
-├── Program.cs                      ⚙️ CONFIGURAZIONE
-│                                   • DbContext + SQL Server
-│                                   • CORS (localhost allowed)
-│                                   • Dependency Injection
-│                                   • Registrazione servizi
-│
-└── appsettings.json                🔐 CONFIGURAZIONE
-                                    • Connection string SQL Server
-                                    • Dati negozio (nome, telefono, etc.)
+                                BackEnd/
+                                │
+                                ├── Controllers/           🎯 ENTRY POINT - Riceve le richieste HTTP
+                                │   └── ScontriniController.cs      • GET /scontrino/{id}
+                                │                                   • GET /scontrinigiornata/{anno}/{mese}/{giorno}
+                                │
+                                ├── Services/                       💼 BUSINESS LOGIC - Elabora i dati
+                                │   ├── IServiceScontrini.cs        • Interfaccia (contratto)
+                                │   └── ServiceScontrini.cs         • Implementazione (logica di ricerca e conversione)
+                                │
+                                ├── Data/                           🗄️ DATABASE LAYER - Comunica con SQL Server
+                                │   └── ZeusContext.cs              • DbContext (Entity Framework)
+                                │                                   • Configura relazioni tra tabelle
+                                │                                   • DbSet per accedere ai dati
+                                │
+                                ├── Entities/                       📋 MODELLI DOMINIO - Rispecchiano DB
+                                │   ├── TestaScontrino.cs           • Mappa tabella: sto_TestaScontrini
+                                │   ├── RigaScontrino.cs            • Mappa tabella: sto_RigheScontrini
+                                │   └── VenCassa.cs                 • Mappa tabella: ven_Cassa (Pagamenti)
+                                │
+                                ├── DTOs/                           📦 TRANSFER OBJECTS - Formato JSON safe
+                                │   ├── TestaScontrinoDTO.cs        • Scontrino serializzabile (senza circular ref)
+                                │   ├── RigaScontrinoDTO.cs         • Riga prodotto in JSON
+                                │   └── CassaDTO.cs                 • Metodi pagamento
+                                │
+                                ├── utilities/                      🔧 UTILITY - Funzioni ausiliarie
+                                │   ├── Converter.cs                • Entity → DTO (mapping automatico)
+                                │   └── Utility.cs                  • Caricamento configurazioni da appsettings
+                                │
+                                ├── Program.cs                      ⚙️ CONFIGURAZIONE
+                                │                                   • DbContext + SQL Server
+                                │                                   • CORS (localhost allowed)
+                                │                                   • Dependency Injection
+                                │                                   • Registrazione servizi
+                                │
+                                └── appsettings.json                🔐 CONFIGURAZIONE
+                                                                     • Connection string SQL Server
+                                                                     • Dati negozio (nome, telefono, etc.)
                         </pre>
                     </div>
 
-                    <button class="btn btn-sm btn-secondary w-100 font-monospace mb-2 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFE" aria-expanded="false">
-                        📁 Mostra Struttura Progetto FrontEnd
+                    <button class="btn btn-sm btn-custom-sub w-100 font-monospace mb-2 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFE" aria-expanded="false">
+                        📁 MOSTRA STRUTTURA PROGETTO FRONTEND
                     </button>
                     <div class="collapse" id="collapseFE">
                         <pre class="text-white p-3 rounded" style="background-color: #1e1e1e; border: 1px solid #2D2D2D; font-size: 0.9rem; overflow-x: auto;">
-FrontEnd/
-│
-├── Pages/                          🖥️ PAGINE WEB - UI Utente
-│   ├── Index.cshtml                • Dashboard - Verifica connessione DB
-│   ├── Index.cshtml.cs             • Logic: test connessione API
-│   │
-│   ├── DettaglioScontrino.cshtml   • Form ricerca scontrino
-│   └── DettaglioScontrino.cshtml.cs • Logic: GET da API, mostra risultati
-│
-├── DTOs/                            📦 STESSE STRUTTURE DEL BACKEND
-│   ├── TestaScontrinoDTO.cs        • Per deserializzare JSON dalla API
-│   └── RigaScontrinoDTO.cs
-│
-├── Program.cs                      ⚙️ CONFIGURAZIONE
-│                                  • HttpClient → http://localhost:5073
-│                                  • Razor Pages registration
-│
-└── appsettings.json
+                                FrontEnd/
+                                │
+                                ├── Pages/                          🖥️ PAGINE WEB - UI Utente
+                                │   ├── Index.cshtml                • Dashboard - Verifica connessione DB
+                                │   ├── Index.cshtml.cs             • Logic: test connessione API
+                                │   │
+                                │   ├── DettaglioScontrino.cshtml   • Form ricerca scontrino
+                                │   └── DettaglioScontrino.cshtml.cs • Logic: GET da API, mostra risultati
+                                │
+                                ├── DTOs/                           📦 STESSE STRUTTURE DEL BACKEND
+                                │   ├── TestaScontrinoDTO.cs        • Per deserializzare JSON dalla API
+                                │   └── RigaScontrinoDTO.cs
+                                │
+                                ├── Program.cs                      ⚙️ CONFIGURAZIONE
+                                │                                  • HttpClient → http://localhost:5073
+                                │                                  • Razor Pages registration
+                                │
+                                └── appsettings.json
                         </pre>
                     </div>
                 </div>
@@ -121,34 +121,34 @@ FrontEnd/
         </div>
 
         <div class="mt-4">
-            <button class="btn btn-outline-primary fw-bold font-monospace text-start w-100 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFunzionamento" aria-expanded="false" aria-controls="collapseFunzionamento">
+            <button class="btn btn-custom-main fw-bold font-monospace text-start w-100 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFunzionamento" aria-expanded="false" aria-controls="collapseFunzionamento">
                 ⚙️ COME FUNZIONA IL PROGRAMMA E COME COMUNICA CON IL DATABASE
             </button>
 
             <div class="collapse" id="collapseFunzionamento">
                 <div class="card card-body border-0 mt-2 p-3 text-dark" style="background-color: #1a1a1a; border: 1px solid #2D2D2D !important;">
 
-                    <h4 class="text-warning h6 font-monospace mt-2 mb-3">🔄 Flusso di Lavoro: Richiesta e Recupero Dati</h4>
+                    <h4 class="h6 font-monospace mt-2 mb-3" style="color: #10406A !important;">🔄 Flusso di Lavoro: Richiesta e Recupero Dati</h4>
 
                     <pre class="text-white p-3 rounded" style="background-color: #1e1e1e; border: 1px solid #2D2D2D; font-size: 0.9rem; overflow-x: auto;">
-[ UTENTE / BROWSER ] ➔ Sceglie una data sul calendario (es. 25 Maggio)
-         │
-         ▼
- [ INTERFACCIA GRAFICA ] ➔ Invia una richiesta via rete alla API
-         │
-         ▼
- [ CERVELLO LOGICO ] ➔ Riceve la richiesta, legge le tabelle del Database
-         │
-         ▼
- [ DATABASE "ZEUS" ] ➔ Custodisce le 3 tabelle: Testate, Prodotti e Pagamenti
-         │
- (Il percorso si inverte: il dato torna indietro)
-         │
-         ▼
- [ CERVELLO LOGICO ] ➔ Ripulisce i dati, calcola l'IVA e crea un "pacchetto regalo" pulito (DTO)
-         │
-         ▼
- [ INTERFACCIA GRAFICA ] ➔ Scarta il pacchetto e disegna lo scontrino termico a schermo
+                                [ UTENTE / BROWSER ] ➔ Sceglie una data sul calendario (es. 25 Maggio)
+                                         │
+                                         ▼
+                                 [ INTERFACCIA GRAFICA ] ➔ Invia una richiesta via rete alla API
+                                         │
+                                         ▼
+                                 [ CERVELLO LOGICO ] ➔ Riceve la richiesta, legge le tabelle del Database
+                                         │
+                                         ▼
+                                 [ DATABASE "ZEUS" ] ➔ Custodisce le 3 tabelle: Testate, Prodotti e Pagamenti
+                                         │
+                                         (Il percorso si inverte: il dato torna indietro)
+                                         │
+                                         ▼
+                                 [ CERVELLO LOGICO ] ➔ Ripulisce i dati, calcola l'IVA e crea un "pacchetto regalo" pulito (DTO)
+                                         │
+                                         ▼
+                                 [ INTERFACCIA GRAFICA ] ➔ Scarta il pacchetto e disegna lo scontrino termico a schermo
                     </pre>
 
                     <p>
@@ -165,16 +165,16 @@ FrontEnd/
 
                     <div class="row g-2 mt-3">
                         <div class="col-md-6">
-                            <button class="btn btn-sm btn-outline-warning w-100 font-monospace" type="button" data-bs-toggle="collapse" data-bs-target="#subCollapseData" aria-expanded="false" aria-controls="subCollapseData">
+                            <button class="btn btn-sm btn-custom-sub w-100 font-monospace" type="button" data-bs-toggle="collapse" data-bs-target="#subCollapseData" aria-expanded="false" aria-controls="subCollapseData">
                                 📅 RICERCA SCONTRINI PER DATA
                             </button>
                             <div class="collapse mt-2" id="subCollapseData">
                                 <div class="p-3 rounded border border-secondary text-white small" style="background-color: #2d2d2d;">
-                                    <h5 class="text-warning">A cosa serve</h5>
+                                    <h5 style="color: #FF3344 !important; font-weight: bold;">A cosa serve</h5>
                                     <p>
                                         A fare i report giornalieri (vedere tutte le vendite di un determinato giorno).
                                     </p>
-                                    <h5 class="text-warning">Come funziona</h5>
+                                    <h5 style="color: #FF3344 !important; font-weight: bold;">Come funziona</h5>
                                     <p>
                                         Per non sovraccaricare il server con troppi dati, il sistema lavora in due passaggi:
                                         prima mostra l'elenco generale degli scontrini del giorno e poi carica i dettagli di ognuno.
@@ -185,16 +185,16 @@ FrontEnd/
                         </div>
 
                         <div class="col-md-6">
-                            <button class="btn btn-sm btn-outline-warning w-100 font-monospace" type="button" data-bs-toggle="collapse" data-bs-target="#subCollapseSingolo" aria-expanded="false" aria-controls="subCollapseSingolo">
+                            <button class="btn btn-sm btn-custom-sub w-100 font-monospace" type="button" data-bs-toggle="collapse" data-bs-target="#subCollapseSingolo" aria-expanded="false" aria-controls="subCollapseSingolo">
                                 🔍 RICERCA SCONTRINO SINGOLO
                             </button>
                             <div class="collapse mt-2" id="subCollapseSingolo">
                                 <div class="p-3 rounded border border-secondary text-white small" style="background-color: #2d2d2d;">
-                                    <h5 class="text-warning">A cosa serve</h5>
+                                    <h5 style="color: #FF3344 !important; font-weight: bold;">A cosa serve</h5>
                                     <p>
                                         A cercare un numero specifico di scontrino per vederlo o ristamparlo.
                                     </p>
-                                    <h5 class="text-warning">Come funziona</h5>
+                                    <h5 style="color: #FF3344 !important; font-weight: bold;">Come funziona</h5>
                                     <p>
                                         Il programma fa una richiesta al database e carica tutto insieme (dati generali, prodotti e pagamento).
                                         Se nota un'anomalia (ad esempio uno scontrino senza prodotti), per sicurezza mostra una scheda vuota
@@ -211,3 +211,38 @@ FrontEnd/
 
     </div>
 </div>
+
+<style>
+    /* 1) STILE PULSANTI PRINCIPALI (ROSSO PIENO #9B000E) */
+    .btn-custom-main {
+        color: #ffffff !important;
+        background-color: #9B000E !important;
+        border: 2px solid #9B000E !important;
+        transition: all 0.2s ease-in-out;
+    }
+
+        .btn-custom-main:hover,
+        .btn-custom-main:focus,
+        .btn-custom-main:active {
+            color: #ffffff !important;
+            background-color: #80010D !important;
+            border-color: #80010D !important;
+        }
+
+    /* 2) STILE PULSANTI SECONDARI INTERNI (TRASPARENTI CON BORDO) */
+    .btn-custom-sub {
+        color: #9B000E !important;
+        background-color: transparent !important;
+        border: 2px solid #9B000E !important;
+        transition: all 0.2s ease-in-out;
+    }
+
+        .btn-custom-sub:hover,
+        .btn-custom-sub:focus,
+        .btn-custom-sub:active,
+        .btn-custom-sub[aria-expanded="true"] {
+            color: #ffffff !important;
+            background-color: #80010D !important;
+            border-color: #80010D !important;
+        }
+</style>
