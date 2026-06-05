@@ -96,12 +96,13 @@ namespace FSL.Pages
             try
             {
                 var httpRequest = new HttpRequestMessage(HttpMethod.Post, "https://api.anthropic.com/v1/messages");
-                httpRequest.Headers.Add("x-api-key", _apiKey);
+                httpRequest.Headers.Add("x-api-key", _apiKey.Trim()); // Rimuovi spazi
                 httpRequest.Headers.Add("anthropic-version", "2023-06-01");
+                httpRequest.Headers.Add("User-Agent", "FSL-AssistenteAI/1.0");
 
                 var payload = new
                 {
-                    model = "claude-sonnet-4-20250514",
+                    model = "claude-opus-4-1-20250805", // Prova con un modello attuale
                     max_tokens = 1024,
                     system = systemPromptBuilder.ToString(),
                     messages = new[] { new { role = "user", content = request.Messaggio } }
