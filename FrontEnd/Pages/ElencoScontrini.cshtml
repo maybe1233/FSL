@@ -8,8 +8,7 @@
 
     <div class="d-flex justify-content-start align-items-center mb-4 pb-2 border-bottom">
         <div>
-            <h1 class="h3 mb-1 text-primary fw-bold">Gestionale Zeus</h1>
-            <p class="text-light mb-0 font-monospace small">Modulo Ricerca Scontrini</p>
+            <p class="h3 text-primary fw-bold font-monospace tracking-wider">MODULO RICERCA SCONTRINI PER DATA</p>
         </div>
     </div>
 
@@ -130,7 +129,7 @@
                                 </td>
                                 <td class="text-end fw-bold text-dark fs-6">€ @s.Totale.ToString("N2")</td>
                                 <td class="text-center pe-4">
-                                    <a asp-page="/DettaglioScontrino" asp-route-NumeroScontrinoCercato="@s.NumeroScontrino" class="btn btn-sm btn-outline-primary py-1 px-2 fw-semibold" style="font-size: 0.8rem;">
+                                    <a asp-page="/DettaglioScontrino" asp-route-NumeroScontrinoCercato="@s.NumeroScontrino" class="btn btn-sm btn-outline-primary py-1 px-2 fw-semibold" style="font-size: 0.8rem; --bs-btn-color: #10406A; --bs-btn-border-color: #10406A; --bs-btn-hover-bg: #10406A;">
                                         🔍 Vedi Scontrino
                                     </a>
                                 </td>

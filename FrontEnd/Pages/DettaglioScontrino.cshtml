@@ -13,10 +13,20 @@
 
 <div class="container my-5 d-flex flex-column align-items-center">
 
-    <div class="d-flex justify-content-between w-100 mb-4" style="max-width: 450px;">
-        <a asp-page="/Index" class="btn btn-outline-secondary btn-sm">← Torna alla Console</a>
-        <button onclick="window.print()" class="btn btn-primary btn-sm">🖨️ Stampa Scontrino</button>
-    </div>
+    <div class="container my-5 d-flex flex-column align-items-center">
+
+
+        <div class="d-flex justify-content-start align-items-center mb-4 pb-2 border-bottom">
+            <div>
+                <p class="h3 text-primary fw-bold font-monospace" style="letter-spacing: normal;">RICERCA SCONTRINO PER ID</p>
+            </div>
+        </div>
+
+
+        <div class="d-flex justify-content-between w-100 mb-4" style="max-width: 450px;">
+            <a asp-page="/Index" class="btn btn-outline-secondary btn-sm">← Torna alla Home</a>
+            <button onclick="window.print()" class="btn btn-primary btn-sm">🖨️ Stampa Scontrino</button>
+        </div>
 
     <div class="card border-0 shadow mb-4 w-100" style="background-color: #121212; border: 1px solid #2D2D2D !important; max-width: 450px;">
         <div class="card-body p-3">

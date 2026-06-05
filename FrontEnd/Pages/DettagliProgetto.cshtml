@@ -50,44 +50,55 @@
                     </button>
                     <div class="collapse" id="collapseFSL">
                         <pre class="text-white p-3 rounded mb-3" style="background-color: #1e1e1e; border: 1px solid #2D2D2D; font-size: 0.9rem; overflow-x: auto;">
-                                BackEnd/
-                                │
-                                ├── Controllers/           🎯 ENTRY POINT - Riceve le richieste HTTP
-                                │   └── ScontriniController.cs      • GET /scontrino/{id}
-                                │                                   • GET /scontrinigiornata/{anno}/{mese}/{giorno}
-                                │
-                                ├── Services/                       💼 BUSINESS LOGIC - Elabora i dati
-                                │   ├── IServiceScontrini.cs        • Interfaccia (contratto)
-                                │   └── ServiceScontrini.cs         • Implementazione (logica di ricerca e conversione)
-                                │
-                                ├── Data/                           🗄️ DATABASE LAYER - Comunica con SQL Server
-                                │   └── ZeusContext.cs              • DbContext (Entity Framework)
-                                │                                   • Configura relazioni tra tabelle
-                                │                                   • DbSet per accedere ai dati
-                                │
-                                ├── Entities/                       📋 MODELLI DOMINIO - Rispecchiano DB
-                                │   ├── TestaScontrino.cs           • Mappa tabella: sto_TestaScontrini
-                                │   ├── RigaScontrino.cs            • Mappa tabella: sto_RigheScontrini
-                                │   └── VenCassa.cs                 • Mappa tabella: ven_Cassa (Pagamenti)
-                                │
-                                ├── DTOs/                           📦 TRANSFER OBJECTS - Formato JSON safe
-                                │   ├── TestaScontrinoDTO.cs        • Scontrino serializzabile (senza circular ref)
-                                │   ├── RigaScontrinoDTO.cs         • Riga prodotto in JSON
-                                │   └── CassaDTO.cs                 • Metodi pagamento
-                                │
-                                ├── utilities/                      🔧 UTILITY - Funzioni ausiliarie
-                                │   ├── Converter.cs                • Entity → DTO (mapping automatico)
-                                │   └── Utility.cs                  • Caricamento configurazioni da appsettings
-                                │
-                                ├── Program.cs                      ⚙️ CONFIGURAZIONE
-                                │                                   • DbContext + SQL Server
-                                │                                   • CORS (localhost allowed)
-                                │                                   • Dependency Injection
-                                │                                   • Registrazione servizi
-                                │
-                                └── appsettings.json                🔐 CONFIGURAZIONE
-                                                                     • Connection string SQL Server
-                                                                     • Dati negozio (nome, telefono, etc.)
+
+                                BackEnd/ 
+                                    │
+                                    ├── Controllers/                 🎯 ENTRY POINT - Riceve richieste HTTP REST
+                                    │   ├── ScontriniController.cs   • GET /api/scontrini/scontrino/{id}
+                                    │   │                            • GET /api/scontrini/scontrinigiornata/{anno}/{mese}/{giorno}
+                                    │   │                            • GET /api/scontrini/elenco
+                                    │   │
+                                    │   └── AiController.cs          🤖 INTEGRAZIONE AI - Claude Anthropic
+                                    │                                • POST /api/ai/chat
+                                    │                                • Chiama API Anthropic per risposte intelligent
+                                    │
+                                    ├── Services/                    💼 BUSINESS LOGIC - Elabora dati
+                                    │   ├── IServiceScontrini.cs     • Interfaccia (contratto dei metodi)
+                                    │   │                            • GetScontriniByIds, GetScontriniByData
+                                    │   │
+                                    │   └── ServiceScontrini.cs      • Implementazione logica
+                                    │                                • Filtraggio, ordinamento, conversioni
+                                    │
+                                    ├── Data/                        🗄️ DATABASE LAYER - Entity Framework Core
+                                    │   └── ZeusContext.cs           • DbContext SQL Server
+                                    │                                • Configura DbSet<Entità>
+                                    │                                • Relazioni tra tabelle
+                                    │
+                                    ├── Entities/                    📋 MODELLI DOMINIO - Mappano tabelle DB
+                                    │   ├── TestaScontrino.cs        • sto_TestaScontrini
+                                    │   ├── RigaScontrino.cs         • sto_RigheScontrini
+                                    │   └── VenCassa.cs              • ven_Cassa (Metodi pagamento)
+                                    │
+                                    ├── DTOs/                        📦 DATA TRANSFER OBJECTS - Formato JSON sicuro
+                                    │   ├── TestaScontrinoDTO.cs     • Scontrino serializzabile
+                                    │   ├── RigaScontrinoDTO.cs      • Riga prodotto in JSON
+                                    │   └── CassaDTO.cs              • Info pagamenti
+                                    │
+                                    ├── utilities/                   🔧 UTILITY FUNCTIONS
+                                    │   ├── Converter.cs             • Entity → TestaScontrinoDTO
+                                    │   ├── Converter2.cs            • Entity → Altro mapping
+                                    │   └── Utility.cs               • Config loader (appsettings)
+                                    │
+                                    ├── Program.cs                   ⚙️ CONFIGURAZIONE GLOBALE
+                                    │                                • DbContext + SQL Server
+                                    │                                • CORS (localhost allowed)
+                                    │                                • Dependency Injection servizi
+                                    │                                • Registrazione HttpClient
+                                    │
+                                    └── appsettings.json             🔐 CONFIGURAZIONE
+                                                                     • Connection string: DefaultConnection
+                                                                     • API keys (Anthropic:ApiKey)
+                                                                     • Dati negozio (negozio, telefono, email)
                         </pre>
                     </div>
 
@@ -96,24 +107,61 @@
                     </button>
                     <div class="collapse" id="collapseFE">
                         <pre class="text-white p-3 rounded" style="background-color: #1e1e1e; border: 1px solid #2D2D2D; font-size: 0.9rem; overflow-x: auto;">
+
                                 FrontEnd/
-                                │
-                                ├── Pages/                          🖥️ PAGINE WEB - UI Utente
-                                │   ├── Index.cshtml                • Dashboard - Verifica connessione DB
-                                │   ├── Index.cshtml.cs             • Logic: test connessione API
-                                │   │
-                                │   ├── DettaglioScontrino.cshtml   • Form ricerca scontrino
-                                │   └── DettaglioScontrino.cshtml.cs • Logic: GET da API, mostra risultati
-                                │
-                                ├── DTOs/                           📦 STESSE STRUTTURE DEL BACKEND
-                                │   ├── TestaScontrinoDTO.cs        • Per deserializzare JSON dalla API
-                                │   └── RigaScontrinoDTO.cs
-                                │
-                                ├── Program.cs                      ⚙️ CONFIGURAZIONE
-                                │                                  • HttpClient → http://localhost:5073
-                                │                                  • Razor Pages registration
-                                │
-                                └── appsettings.json
+                                    │
+                                    ├── Pages/                                      🖥️ PAGINE RAZOR - UI Utente
+                                    │   │
+                                    │   ├── Index.cshtml                            • Dashboard principale
+                                    │   ├── Index.cshtml.cs                         • PageModel: Test connessione DB
+                                    │   │
+                                    │   ├── DettaglioScontrino.cshtml               • Form ricerca singolo scontrino
+                                    │   └── DettaglioScontrino.cshtml.cs            • PageModel: GET by ID
+                                    │   |                                           • Chiama API: GET /api/scontrini/scontrino/{id}
+                                    │   |
+                                    │   ├── ElencoScontrini.cshtml                  • Lista scontrini per data
+                                    │   └── ElencoScontrini.cshtml.cs               • PageModel: GET by data range
+                                    │   |                                           • Chiama API: GET /api/scontrini/scontrinigiornata
+                                    │   |
+                                    │   ├── DettagliProgetto.cshtml                 • Pagina progetto
+                                    │   └── DettagliProgetto.cshtml.cs              • PageModel: Gestione progetti
+                                    │   |
+                                    │   ├── AssistenteAi.cshtml                    🤖 CHAT IA
+                                    │   └── AssistenteAi.cshtml.cs                  • PageModel: Chat Claude
+                                    │   |                                           • Chiama API: POST /api/ai/chat
+                                    │   |                                           • Converti risposta JSON
+                                    │   |
+                                    │   ├── Shared/                                 📄 LAYOUT CONDIVISI
+                                    │   │   ├── _Layout.cshtml                      • Template HTML principale
+                                    │   │   │                                       • Navigation bar, Footer
+                                    │   │   │                                       • Scripts e CSS globali
+                                    │   │   │
+                                    │   │   └── _ValidationScriptsPartial.cshtml    • Validazione client-side
+                                    │   │
+                                    │   ├── _ViewStart.cshtml                       • Specifica layout per tutte le pagine
+                                    │   ├── _ViewImports.cshtml                     • Import namespaces globali
+                                    │   │
+                                    │   └── DTOs/                                   📦 STESSE STRUTTURE DEL BACKEND
+                                    │       ├── TestaScontrinoDTO.cs                • Per deserializzare JSON da API
+                                    │       ├── RigaScontrinoDTO.cs
+                                    │       └── CassaDTO.cs
+                                    │
+                                    ├── wwwroot/                                    📁 RISORSE STATICHE - CSS, JS, librerie
+                                    │   ├── css/                                    • Stylesheet personalizati
+                                    │   ├── js/                      
+                                    │   │   └── site.js                             • JavaScript custom (chiamate API, etc)
+                                    │   │
+                                    │   └── lib/                                    • Librerie (Bootstrap, jQuery, etc)
+                                    │       └── bootstrap/                          • Framework CSS
+                                    │
+                                    ├── Program.cs                                 ⚙️ CONFIGURAZIONE
+                                    │                                               • AddRazorPages()
+                                    │                                               • HttpClient scoped
+                                    │                                               • BaseAddress: http://localhost:5073/
+                                    │
+                                    └── appsettings.json                           🔐 CONFIGURAZIONE
+                                                                                    • Connection string (se necessario)
+                                                                                    • API base URL
                         </pre>
                     </div>
                 </div>
@@ -131,24 +179,26 @@
                     <h4 class="h6 font-monospace mt-2 mb-3" style="color: #10406A !important;">🔄 Flusso di Lavoro: Richiesta e Recupero Dati</h4>
 
                     <pre class="text-white p-3 rounded" style="background-color: #1e1e1e; border: 1px solid #2D2D2D; font-size: 0.9rem; overflow-x: auto;">
-                                [ UTENTE / BROWSER ] ➔ Sceglie una data sul calendario (es. 25 Maggio)
+
+
+                                [ UTENTE / BROWSER ]        ➔ Sceglie una data sul calendario (es. 25 Maggio)
                                          │
                                          ▼
-                                 [ INTERFACCIA GRAFICA ] ➔ Invia una richiesta via rete alla API
+                                 [ INTERFACCIA GRAFICA ]    ➔ Invia una richiesta via rete alla API
                                          │
                                          ▼
-                                 [ CERVELLO LOGICO ] ➔ Riceve la richiesta, legge le tabelle del Database
+                                 [ CERVELLO LOGICO ]        ➔ Riceve la richiesta, legge le tabelle del Database
                                          │
                                          ▼
-                                 [ DATABASE "ZEUS" ] ➔ Custodisce le 3 tabelle: Testate, Prodotti e Pagamenti
+                                 [ DATABASE "ZEUS" ]        ➔ Custodisce le 3 tabelle: Testate, Prodotti e Pagamenti
                                          │
-                                         (Il percorso si inverte: il dato torna indietro)
-                                         │
-                                         ▼
-                                 [ CERVELLO LOGICO ] ➔ Ripulisce i dati, calcola l'IVA e crea un "pacchetto regalo" pulito (DTO)
+                                         | (Il percorso si inverte: il dato torna indietro)
                                          │
                                          ▼
-                                 [ INTERFACCIA GRAFICA ] ➔ Scarta il pacchetto e disegna lo scontrino termico a schermo
+                                 [ CERVELLO LOGICO ]        ➔ Ripulisce i dati, calcola l'IVA e crea un "pacchetto regalo" pulito (DTO)
+                                         │
+                                         ▼
+                                 [ INTERFACCIA GRAFICA ]    ➔ Scarta il pacchetto e disegna lo scontrino termico a schermo
                     </pre>
 
                     <p>
@@ -159,7 +209,7 @@
                     </p>
 
                     <p>
-                        Per evitare di rallentare il server dell'azienda,
+                        Per evitare di rallentare il server,
                         il programma usa due strategie di ricerca differenti a seconda di cosa chiede l'utente:
                     </p>
 
@@ -207,9 +257,95 @@
 
                 </div>
             </div>
+
+            <div class="mt-4">
+                <button class="btn btn-custom-main fw-bold font-monospace text-start w-100 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAssistenteAi" aria-expanded="false" aria-controls="collapseAssistenteAi">
+                    🤖 ASSISTENTE AI - COME FUNZIONA
+                </button>
+
+                <div class="collapse" id="collapseAssistenteAi">
+                    <div class="card card-body border-0 mt-2 p-3 text-dark" style="background-color: #1a1a1a; border: 1px solid #2D2D2D !important;">
+
+                        <p class="text-dark">
+                            L'assistente Ai integrato nel sito sfrutta <strong class="text-dark">Claude</strong>, il modello di intelligenza artificiale sviluppato da Anthropic,
+                            per rispondere a domande sugli scontrini del punto vendita.
+                        </p>
+
+                        <h4 class="h6 font-monospace mt-2 mb-3" style="color: #10406A !important;">🔄 Flusso di una Conversazione</h4>
+
+                        <pre class="text-white p-3 rounded" style="background-color: #1e1e1e; border: 1px solid #2D2D2D; font-size: 0.9rem; overflow-x: auto;">
+
+                                     [ UTENTE ]         ➔ Scrive una domanda (es. "Qual è il totale del 3 giugno?")
+                                          │
+                                          ▼
+                                    [ FRONTEND ]        ➔ Raccoglie la domanda + eventuali ID scontrini o date selezionate
+                                          │
+                                          ▼
+                                     [ BACKEND ]        ➔ Recupera i dati dal database Zeus
+                                          |             ➔ Costruisce un contesto testuale con gli scontrini trovati
+                                          │
+                                          ▼
+                                 [ API ANTHROPIC ]      ➔ Riceve domanda + contesto dati
+                                          |             ➔ Claude elabora e genera una risposta in italiano
+                                          │
+                                          ▼
+                                    [ FRONTEND ]        ➔ Mostra la risposta nella chat in tempo reale
+            </pre>
+
+                        <div class="row g-2 mt-3">
+                            <div class="col-md-6">
+                                <button class="btn btn-sm btn-custom-sub w-100 font-monospace" type="button" data-bs-toggle="collapse" data-bs-target="#subCollapseContesto" aria-expanded="false">
+                                    📋 CONTESTO E DATI INVIATI
+                                </button>
+                                <div class="collapse mt-2" id="subCollapseContesto">
+                                    <div class="p-3 rounded border border-secondary text-white small" style="background-color: #2d2d2d;">
+                                        <h5 style="color: #FF3344 !important; font-weight: bold;">Cosa viene inviato ad Anthropic</h5>
+                                        <p>
+                                            Ad ogni domanda, il backend recupera dal database gli scontrini richiesti (per ID o per data)
+                                            e li converte in testo strutturato. Questo testo viene allegato alla domanda dell'utente
+                                            come contesto, in modo che Claude possa rispondere con dati reali e precisi.
+                                        </p>
+                                        <h5 style="color: #FF3344 !important; font-weight: bold;">Privacy</h5>
+                                        <p class="mb-0">
+                                            Nessuna conversazione viene salvata. Ogni richiesta è indipendente e i dati
+                                            vengono inviati esclusivamente per elaborare la risposta in tempo reale.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <button class="btn btn-sm btn-custom-sub w-100 font-monospace" type="button" data-bs-toggle="collapse" data-bs-target="#subCollapseLimiti" aria-expanded="false">
+                                    ⚠️ LIMITAZIONI E NOTE
+                                </button>
+                                <div class="collapse mt-2" id="subCollapseLimiti">
+                                    <div class="p-3 rounded border border-secondary text-white small" style="background-color: #2d2d2d;">
+                                        <h5 style="color: #FF3344 !important; font-weight: bold;">Cosa sa fare</h5>
+                                        <p>
+                                            Risponde a domande su totali, prodotti, metodi di pagamento, medie e statistiche
+                                            basandosi esclusivamente sui dati forniti dal database Zeus.
+                                        </p>
+                                        <h5 style="color: #FF3344 !important; font-weight: bold;">Cosa non sa fare</h5>
+                                        <p class="mb-0">
+                                            Non ha memoria delle conversazioni precedenti e non può accedere a dati
+                                            esterni al database Zeus. Ogni sessione riparte da zero.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>
+
+
+
+
 </div>
 
 <style>

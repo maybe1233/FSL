@@ -7,12 +7,12 @@
 @Html.AntiForgeryToken()
 
 <div class="container mt-4">
-    <h2>Chiedi all'Assistente AI</h2>
-    <p class="text-muted">Interroga il sistema di gestione scontrini assistito da Claude.</p>
+    <h2 class="text-primary fw-bold font-monospace">CHIEDI ALL'ASSISTENTE AI</h2>
+    <p class="text-secondary">Interroga il sistema di gestione scontrini assistito da Claude.</p>
 
     <div class="row">
         <div class="col-md-4 mb-3">
-            <div class="card p-3 shadow-sm">
+            <div class="card p-3 shadow-sm rounded-3">
                 <h5 class="card-title border-bottom pb-2">Contesto Domanda</h5>
 
                 <div class="form-group mb-3">
@@ -37,7 +37,7 @@
         </div>
 
         <div class="col-md-8">
-            <div class="card">
+            <div class="card rounded-3 overflow-hidden">
                 <div id="chat-box" class="card-body" style="height: 430px; overflow-y: auto; background-color: #f8f9fa;">
 
                     <div class="text-center pt-4 pb-2">
@@ -116,9 +116,17 @@
             const dati = await response.json();
             const rispostaClaude = dati.content[0].text;
 
-            // 4. Rimuovi caricamento e mostra la risposta dell'AI
-            document.getElementById(loadingId).remove();
-            chatBox.innerHTML += `<div class="mb-2 text-start"><strong>ZEUS AI:</strong> <div class="bg-primary text-white p-2 d-inline-block rounded">${rispostaClaude}</div></div>`;
+            // 4. Formatta il markdown e mostra la risposta
+            const testoFormattato = rispostaClaude
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/^---$/gm, '<hr style="border-color:rgba(255,255,255,0.3)">')
+                .replace(/^• (.+)$/gm, '<li>$1</li>')
+                .replace(/^- (.+)$/gm, '<li>$1</li>')
+                .replace(/(<li>.*<\/li>)/gs, '<ul class="ps-3 mb-1">$1</ul>')
+                .replace(/\n/g, '<br>');
+
+            chatBox.innerHTML += `<div class="mb-2 text-start"><strong>ZEUS AI:</strong> <div class="text-white p-2 d-inline-block rounded" style="background-color: #E73D31;">${testoFormattato}</div></div>`;
 
         } catch (error) {
             document.getElementById(loadingId).remove();
@@ -129,7 +137,7 @@
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    document.getElementById("user-input").addEventListener("keypress", function(event) {
+    document.getElementById("user-input").addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             inviaDomanda();
         }
